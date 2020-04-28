@@ -36,19 +36,6 @@ const useStyles = makeStyles((theme) => ({
 const SignIn = (props) => {
     const classes = useStyles();
 
-    const userLogin = (values) => {
-        axios.post(`${apiUrl}/users/login`, values)
-            .then((response) => {
-                console.log(response);
-                props.history.push('/products')
-            })
-            .catch((error) => {
-                console.log(values);
-                console.error(error.response.data.message);
-                console.log(error);
-            });
-    }
-
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
@@ -72,12 +59,20 @@ const SignIn = (props) => {
                         }
                         if(!values.password) {
                             errors.password = 'Required';
-                        } else if (values.password !== values.password2) {
-                            errors.password = 'passwords not identical'
                         }
+
                         return errors;
                     }}
                     onSubmit={(values, actions) => {
+                        axios.post(`${apiUrl}/users/login`, values)
+                            .then((response) => {
+                                console.log('res', response);
+                                props.history.push('/products')
+                            })
+                            .catch((error) => {
+                                console.log('err', error);
+                                actions.setSubmitting(false);
+                            });
                     }}
                 >
                     {({
@@ -85,7 +80,6 @@ const SignIn = (props) => {
                           errors,
                           touched,
                           handleChange,
-                          handleBlur,
                           handleSubmit,
                           isSubmitting,
                           /* and other goodies */
@@ -95,9 +89,7 @@ const SignIn = (props) => {
                                 variant="outlined"
                                 margin="normal"
                                 onChange={handleChange}
-                                onBlur={handleBlur}
                                 value={values.email}
-                                required
                                 fullWidth
                                 id="email"
                                 label="Email Address"
@@ -110,9 +102,7 @@ const SignIn = (props) => {
                                 variant="outlined"
                                 margin="normal"
                                 onChange={handleChange}
-                                onBlur={handleBlur}
                                 value={values.password}
-                                required
                                 fullWidth
                                 name="password"
                                 label="Password"
@@ -126,9 +116,8 @@ const SignIn = (props) => {
                                 fullWidth
                                 variant="contained"
                                 color="primary"
-                                disabled={isSubmitting}
+                                disabled={Object.keys(errors).length !== 0 || isSubmitting}
                                 className={classes.submit}
-                                onClick={() => userLogin(values)}
                             >
                                 Sign In
                             </Button>

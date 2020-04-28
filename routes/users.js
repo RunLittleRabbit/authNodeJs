@@ -68,6 +68,7 @@ router.post('/register', (req, res) => {
 router.post('/login',
     passport.authenticate('local'),
     function(req, res) {
+    res.end(`${req.user.username} logged in`);
         // If this function gets called, authentication was successful.
         // `req.user` contains the authenticated user.
         // res.redirect('/products?' + req.user.username);
