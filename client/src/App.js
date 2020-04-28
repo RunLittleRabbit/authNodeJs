@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import SignIn from "./pages/signIn/signIn";
 import SignUp from "./pages/signUp/signUp";
-import Header from "./components/header";
+import Header from "./components/Header";
 import {
     BrowserRouter as Router,
     Route,

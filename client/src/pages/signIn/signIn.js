@@ -96,6 +96,7 @@ const SignIn = (props) => {
                                 name="email"
                                 autoComplete="email"
                                 autoFocus
+                                required
                             />
                             {errors.email && touched.email && errors.email}
                             <TextField
@@ -109,6 +110,7 @@ const SignIn = (props) => {
                                 type="password"
                                 id="password"
                                 autoComplete="current-password"
+                                required
                             />
                             {errors.password && touched.password && errors.password}
                             <Button
