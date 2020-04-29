@@ -39,7 +39,7 @@ export default function ButtonAppBar() {
                     </Button>
                     <Button color="inherit">
                         <Link className={classes.link} to="/">
-                            Sign Up
+                            Sign In
                         </Link>
                     </Button>
                 </Toolbar>
