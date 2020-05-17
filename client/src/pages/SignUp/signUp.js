@@ -36,17 +36,6 @@ const useStyles = makeStyles((theme) => ({
 const SignUp = (props) => {
     const classes = useStyles();
 
-  const createUser = (values) => {
-        axios.post(`${apiUrl}/users/register`, values)
-            .then((response) => {
-                console.log(response);
-                props.history.push('/')
-            })
-            .catch((error) => {
-                console.error(error.response.data.message);
-            });
-    }
-
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
@@ -75,10 +64,15 @@ const SignUp = (props) => {
                         }
                         return errors;
                     }}
-                    onSubmit={(values, { setSubmitting }) => {
-                        setTimeout(() => {
-                            setSubmitting(false);
-                        }, 400);
+                    onSubmit={(values) => {
+                        axios.post(`${apiUrl}/users/register`, values)
+                            .then((response) => {
+                                console.log(response);
+                                props.history.push('/SignIn')
+                            })
+                            .catch((error) => {
+                                console.error(error.response.data.message);
+                            });
                     }}
                 >
                     {({
@@ -159,14 +153,6 @@ const SignUp = (props) => {
                                 </Grid>
 
                             </Grid>
-                            {/*<input*/}
-                            {/*    type="password"*/}
-                            {/*    name="password"*/}
-                            {/*    onChange={handleChange}*/}
-                            {/*    onBlur={handleBlur}*/}
-                            {/*    value={values.password}*/}
-                            {/*/>*/}
-                            {/*{errors.password && touched.password && errors.password}*/}
                             <Button
                                 type="submit"
                                 fullWidth
@@ -174,13 +160,12 @@ const SignUp = (props) => {
                                 color="primary"
                                 className={classes.submit}
                                 disabled={isSubmitting}
-                                onClick={() => createUser(values)}
                             >
                                 Sign Up
                             </Button>
                             <Grid container justify="flex-end">
                                 <Grid item>
-                                    <Link to="/">
+                                    <Link to="/signIn">
                                         Already have an account? Sign in
                                     </Link>
                                 </Grid>

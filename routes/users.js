@@ -11,21 +11,21 @@ router.post('/register', (req, res) => {
 
     if (!name || !email || !password || !password2) {
         return res.status(400).send({
-            success: 'false',
+            status: 'failure',
             message: 'Please enter all fields'
         });
     }
 
     if (password !== password2) {
         return res.status(400).send({
-            success: 'false',
+            status: 'failure',
             message: 'Passwords do not match'
         });
     }
 
     if (password.length < 6) {
         return res.status(400).send({
-            success: 'false',
+            status: 'failure',
             message: 'Password must be at least 6 characters'
         });
     }
@@ -34,7 +34,7 @@ router.post('/register', (req, res) => {
         User.findOne({ email: email }).then(user => {
             if (user) {
                 return res.status(409).send({
-                    success: 'false',
+                    status: 'failure',
                     message: 'Email already exists'
                 });
 
@@ -53,7 +53,7 @@ router.post('/register', (req, res) => {
                             .save()
                             .then(user => {
                                 return res.status(200).send({
-                                    success: 'true',
+                                    status: 'success',
                                     message: 'You are now registered and can log in'
                                 });
                             })
@@ -65,20 +65,38 @@ router.post('/register', (req, res) => {
     }
 });
 
-router.post('/login',
-    passport.authenticate('local'),
-    function(req, res) {
-    res.end(`${req.user.username} logged in`);
-        // If this function gets called, authentication was successful.
-        // `req.user` contains the authenticated user.
-        // res.redirect('/products?' + req.user.username);
-    });
+router.post('/login', (req, res, next) => {
+    passport.authenticate('local', {failureFlash: true}, (err, user, info) => {
+        console.log('444', req.isAuthenticated());
+        if(err)
+            return next(err)
+        if(!user)
+            return res.status(401).send({
+                status: 'failure',
+                message: info.message,
+            })
 
+        req.logIn(user, err => {
+            if(err)
+                return next(err)
+            res.json({name: user.name, email: user.email})
+            console.log('555', req.isAuthenticated());
+        })
+    })(req, res, next)
+})
 // Logout
 router.get('/logout', (req, res) => {
     req.logout();
     req.flash('success_msg', 'You are logged out');
     res.redirect('/users/login');
+});
+
+//get data
+router.get('/getData', (req, res) => {
+    User.find((err, data) => {
+        if (err) return res.json({ success: false, error: err });
+        return res.json({ success: true, data: data });
+    });
 });
 
 module.exports = router;
