@@ -3,8 +3,7 @@ import {
   call, put, takeEvery,
 } from 'redux-saga/effects';
 import axios from 'axios';
-
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 import { apiUrl } from '../../config/api';
 
 function* signIn({ values }) {
