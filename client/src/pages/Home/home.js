@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { addTodo } from '../../store/auth/actions';
+import { actions as AuthActions } from '../../store/auth/actions';
 
 const Home = ({ addText }) => (
   <>
@@ -17,6 +17,6 @@ Home.propTypes = {
 export default connect(
   (state) => ({ state }),
   (dispatch) => ({
-    addText: (text) => dispatch(addTodo(text)),
+    addText: (text) => dispatch(AuthActions.addTodo(text)),
   }),
 )(Home);

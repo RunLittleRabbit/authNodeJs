@@ -12,7 +12,8 @@ import Container from '@material-ui/core/Container';
 import { Formik } from 'formik';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { signIn } from '../../store/auth/actions';
+import { actions as AuthActions } from '../../../store/auth/actions';
+
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -64,20 +65,7 @@ const SignIn = ({ submit }) => {
 
             return errors;
           }}
-          onSubmit={(values, actions) => {
-            // axios.post(`${apiUrl}/users/login`, values)
-            //   .then((response) => {
-            //     console.log('res', response);
-            //     props.history.push('/products');
-            //   })
-            //   .catch((error) => {
-            //     console.log('err', error);
-            //     actions.setSubmitting(false);
-            //   });
-            // setTimeout(() => {
-            //   axios.get(`${apiUrl}/users/getData`)
-            //     .then((res) => console.log(res));
-            // }, 2000);
+          onSubmit={(values) => {
             submit(values);
           }}
         >
@@ -155,6 +143,6 @@ SignIn.propTypes = {
 export default connect(
   (state) => ({ state }),
   (dispatch) => ({
-    submit: (values) => dispatch(signIn(values)),
+    submit: (values) => dispatch(AuthActions.signIn(values)),
   }),
 )(SignIn);

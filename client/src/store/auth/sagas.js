@@ -5,19 +5,31 @@ import {
 import axios from 'axios';
 import { push } from 'connected-react-router';
 import { apiUrl } from '../../config/api';
+import { ActionTypes } from './actions';
 
-function* signIn({ values }) {
+export function* signIn({ values }) {
   try {
     const user = yield call(axios.post, `${apiUrl}/users/login`, values);
-    yield put({ type: 'SIGN_IN_SUCCESS', user });
+    yield put({ type: ActionTypes.SIGN_IN_SUCCESS, user });
     yield put(push('/products'));
   } catch (e) {
-    yield put({ type: 'SIGN_IN_FAILED', message: e.message });
+    yield put({ type: ActionTypes.SIGN_IN_FAILED, message: e.message });
   }
 }
 
-export default function* rootSaga() {
+export function* signUp({ values }) {
+  try {
+    const user = yield call(axios.post, `${apiUrl}/users/register`, values);
+    yield put({ type: ActionTypes.SIGN_UP_SUCCESS, user });
+    yield put(push('/SignIn'));
+  } catch (e) {
+    yield put({ type: ActionTypes.SIGN_UP_FAILED, message: e.message });
+  }
+}
+
+export function* rootSaga() {
   yield all([
-    yield takeEvery('SIGN_IN', signIn),
+    takeEvery(ActionTypes.SIGN_IN, signIn),
+    takeEvery(ActionTypes.SIGN_UP, signUp),
   ]);
 }

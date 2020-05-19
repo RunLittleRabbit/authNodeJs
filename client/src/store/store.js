@@ -4,7 +4,7 @@ import { routerMiddleware } from 'connected-react-router';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import createSagaMiddleware from 'redux-saga';
 import createRootReducer from './rootReducer';
-import rootSaga from './auth/sagas';
+import { rootSaga } from './auth';
 
 export const history = createBrowserHistory();
 const sagaMiddleware = createSagaMiddleware();
