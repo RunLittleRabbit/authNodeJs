@@ -1,21 +1,22 @@
 import { createBrowserHistory } from 'history';
-import { applyMiddleware, createStore } from 'redux';
+import { applyMiddleware, compose, createStore } from 'redux';
 import { routerMiddleware } from 'connected-react-router';
-import { composeWithDevTools } from 'redux-devtools-extension';
 import createSagaMiddleware from 'redux-saga';
 import createRootReducer from './rootReducer';
 import { rootSaga } from './auth';
 
 export const history = createBrowserHistory();
 const sagaMiddleware = createSagaMiddleware();
+// eslint-disable-next-line no-undef
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 export default function configureStore(preloadedState) {
   const store = createStore(
-    createRootReducer(history), // root reducer with router state
+    createRootReducer(history),
     preloadedState,
-    composeWithDevTools(
+    composeEnhancers(
       applyMiddleware(
-        routerMiddleware(history), // for dispatching history actions
+        routerMiddleware(history),
         sagaMiddleware,
       ),
     ),

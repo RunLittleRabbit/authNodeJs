@@ -9,11 +9,9 @@ import configureStore, { history } from './store/store';
 const store = configureStore();
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <App history={history} />
-    </Provider>
-  </React.StrictMode>,
+  <Provider store={store}>
+    <App history={history} />
+  </Provider>,
   // eslint-disable-next-line no-undef
   document.getElementById('root'),
 );
