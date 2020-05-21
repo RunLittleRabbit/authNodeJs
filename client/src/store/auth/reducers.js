@@ -2,7 +2,7 @@ import { ActionTypes } from './actions';
 
 export const initialState = {
   text: 'initial text',
-  user: {},
+  user: null,
   error: '',
   isLoading: false,
 };

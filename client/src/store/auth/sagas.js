@@ -10,7 +10,7 @@ import { ActionTypes } from './actions';
 export function* signIn({ values }) {
   try {
     const user = yield call(axios.post, `${apiUrl}/users/login`, values);
-    yield put({ type: ActionTypes.SIGN_IN_SUCCESS, user });
+    yield put({ type: ActionTypes.SIGN_IN_SUCCESS, values: user.data });
     yield put(push('/products'));
   } catch (e) {
     yield put({ type: ActionTypes.SIGN_IN_FAILED, message: e.message });
@@ -19,8 +19,8 @@ export function* signIn({ values }) {
 
 export function* signUp({ values }) {
   try {
-    const user = yield call(axios.post, `${apiUrl}/users/register`, values);
-    yield put({ type: ActionTypes.SIGN_UP_SUCCESS, user });
+    yield call(axios.post, `${apiUrl}/users/register`, values);
+    yield put({ type: ActionTypes.SIGN_UP_SUCCESS });
     yield put(push('/SignIn'));
   } catch (e) {
     yield put({ type: ActionTypes.SIGN_UP_FAILED, message: e.message });

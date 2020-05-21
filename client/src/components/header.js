@@ -5,6 +5,11 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
+import Avatar from '@material-ui/core/Avatar';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { actions as AuthActions } from '../store/auth/actions';
+import * as AuthSelectors from '../store/auth/selectors';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,15 +27,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Header = () => {
+const Header = ({ user }) => {
   const classes = useStyles();
-
   return (
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
             <Link className={classes.link} to="/">
+              user
               Logo
             </Link>
           </Typography>
@@ -47,10 +52,22 @@ const Header = () => {
           <Button color="inherit">
             Logout
           </Button>
+          {user && (<Avatar>{user.name[0].toUpperCase()}</Avatar>)}
         </Toolbar>
       </AppBar>
     </div>
   );
 };
+Header.propTypes = {
+  user: PropTypes.objectOf(PropTypes.string),
+};
+Header.defaultProps = {
+  user: null,
+};
 
-export default Header;
+export default connect(
+  (state) => ({
+    user: AuthSelectors.shopItemsSelector(state),
+  }),
+  null,
+)(Header);

@@ -16,10 +16,13 @@ import { actions as AuthActions } from '../../../store/auth/actions';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    paddingTop: theme.spacing(8),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    background: 'ghostwhite',
+    marginTop: theme.spacing(8),
+    padding: theme.spacing(4),
+    borderRadius: '5px',
   },
   avatar: {
     margin: theme.spacing(1),
@@ -31,6 +34,10 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
+  },
+  link: {
+    color: '#3f51b5',
+    fontWeight: 600,
   },
 }));
 
@@ -60,6 +67,9 @@ const SignUp = ({ submit }) => {
             ) {
               errors.email = 'Invalid email address';
             }
+            if (!values.name) {
+              errors.name = 'Required';
+            }
             if (!values.password) {
               errors.password = 'Required';
             } else if (values.password !== values.password2) {
@@ -74,18 +84,17 @@ const SignUp = ({ submit }) => {
           {({
             values,
             errors,
-            touched,
             handleChange,
             handleBlur,
+            touched,
             handleSubmit,
             isSubmitting,
-            /* and other goodies */
+
           }) => (
             <form onSubmit={handleSubmit}>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <TextField
-                    autoComplete="fname"
                     name="name"
                     type="name"
                     onChange={handleChange}
@@ -97,11 +106,10 @@ const SignUp = ({ submit }) => {
                     id="name"
                     label="Name"
                     margin="normal"
-                    autoFocus
+                    error={errors.name && touched.name}
+                    helperText={errors.name && touched.name && errors.name}
                   />
-                  {errors.name && touched.name && errors.name}
                   <TextField
-                    autoComplete="fname"
                     name="email"
                     type="email"
                     onChange={handleChange}
@@ -113,10 +121,10 @@ const SignUp = ({ submit }) => {
                     id="email"
                     label="Email"
                     margin="normal"
-                    autoFocus
+                    error={errors.email && touched.email}
+                    helperText={errors.email && touched.email && errors.email}
                   />
                   <TextField
-                    autoComplete="fname"
                     name="password"
                     type="password"
                     onChange={handleChange}
@@ -128,10 +136,10 @@ const SignUp = ({ submit }) => {
                     id="password"
                     label="Password"
                     margin="normal"
-                    autoFocus
+                    error={errors.password && touched.password}
+                    helperText={errors.password && touched.password && errors.password}
                   />
                   <TextField
-                    autoComplete="fname"
                     name="password2"
                     type="password"
                     onChange={handleChange}
@@ -143,17 +151,18 @@ const SignUp = ({ submit }) => {
                     id="password2"
                     label="Repeat Password"
                     margin="normal"
-                    autoFocus
+                    error={errors.password && touched.password}
+                    helperText={errors.password && touched.password2 && errors.password}
                   />
-                  {errors.email && touched.email && errors.email}
                 </Grid>
 
               </Grid>
               <Button
                 type="submit"
                 fullWidth
-                variant="contained"
+                variant="outlined"
                 color="primary"
+                size="large"
                 className={classes.submit}
                 disabled={isSubmitting}
               >
@@ -161,7 +170,7 @@ const SignUp = ({ submit }) => {
               </Button>
               <Grid container justify="flex-end">
                 <Grid item>
-                  <Link to="/signIn">
+                  <Link className={classes.link} to="/signIn">
                     Already have an account? Sign in
                   </Link>
                 </Grid>

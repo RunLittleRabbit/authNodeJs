@@ -12,17 +12,17 @@ import Container from '@material-ui/core/Container';
 import { Formik } from 'formik';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
-import { compose } from 'redux';
 import { actions as AuthActions } from '../../../store/auth/actions';
-
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    paddingTop: theme.spacing(8),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    background: 'ghostwhite',
+    marginTop: theme.spacing(8),
+    padding: theme.spacing(4),
+    borderRadius: '5px',
   },
   avatar: {
     margin: theme.spacing(1),
@@ -34,6 +34,10 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
+  },
+  link: {
+    color: '#3f51b5',
+    fontWeight: 600,
   },
 }));
 
@@ -74,46 +78,51 @@ const SignIn = ({ submit }) => {
           {({
             values,
             errors,
-            touched,
             handleChange,
             handleSubmit,
+            handleBlur,
+            touched,
             isSubmitting,
-            /* and other goodies */
           }) => (
             <form onSubmit={handleSubmit} className={classes.form}>
               <TextField
-                variant="outlined"
                 margin="normal"
                 onChange={handleChange}
+                onBlur={handleBlur}
                 value={values.email}
+                variant="outlined"
                 fullWidth
                 id="email"
                 label="Email Address"
                 name="email"
                 autoComplete="email"
+                error={errors.email && touched.email}
+                helperText={errors.email && touched.email && errors.email}
                 autoFocus
                 required
               />
-              {errors.email && touched.email && errors.email}
               <TextField
-                variant="outlined"
                 margin="normal"
                 onChange={handleChange}
+                onBlur={handleBlur}
                 value={values.password}
+                variant="outlined"
                 fullWidth
                 name="password"
                 label="Password"
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                error={errors.password && touched.password}
+                helperText={errors.password && touched.password && errors.password}
                 required
               />
-              {errors.password && touched.password && errors.password}
               <Button
                 type="submit"
                 fullWidth
-                variant="contained"
+                variant="outlined"
                 color="primary"
+                size="large"
                 disabled={Object.keys(errors).length !== 0 || isSubmitting}
                 className={classes.submit}
               >
@@ -121,12 +130,12 @@ const SignIn = ({ submit }) => {
               </Button>
               <Grid container>
                 <Grid item xs>
-                  <Link to="#" variant="body2">
+                  <Link className={classes.link} to="#">
                     Forgot password?
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link to="signUp" variant="body2">
+                  <Link className={classes.link} to="signUp">
                     Don't have an account? Sign Up
                   </Link>
                 </Grid>
