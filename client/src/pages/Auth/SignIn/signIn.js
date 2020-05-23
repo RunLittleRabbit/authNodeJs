@@ -13,6 +13,7 @@ import { Formik } from 'formik';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { actions as AuthActions } from '../../../store/auth/actions';
+import { AuthSelectors } from '../../../store/auth';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -41,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SignIn = ({ submit }) => {
+const SignIn = ({ submit, isLoading }) => {
   const classes = useStyles();
 
   return (
@@ -82,7 +83,6 @@ const SignIn = ({ submit }) => {
             handleSubmit,
             handleBlur,
             touched,
-            isSubmitting,
           }) => (
             <form onSubmit={handleSubmit} className={classes.form}>
               <TextField
@@ -123,7 +123,7 @@ const SignIn = ({ submit }) => {
                 variant="outlined"
                 color="primary"
                 size="large"
-                disabled={Object.keys(errors).length !== 0 || isSubmitting}
+                disabled={isLoading}
                 className={classes.submit}
               >
                 Sign In
@@ -149,10 +149,13 @@ const SignIn = ({ submit }) => {
 };
 SignIn.propTypes = {
   submit: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
 };
 
 export default connect(
-  (state) => ({ state }),
+  (state) => ({
+    isLoading: AuthSelectors.isLoading(state),
+  }),
   (dispatch) => ({
     submit: (values) => dispatch(AuthActions.signIn(values)),
   }),

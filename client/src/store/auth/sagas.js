@@ -27,7 +27,7 @@ export function* signUp({ values }) {
   }
 }
 
-export function* rootSaga() {
+export function* authSaga() {
   yield all([
     takeEvery(ActionTypes.SIGN_IN, signIn),
     takeEvery(ActionTypes.SIGN_UP, signUp),

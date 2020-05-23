@@ -35,7 +35,6 @@ const Header = ({ user }) => {
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
             <Link className={classes.link} to="/">
-              user
               Logo
             </Link>
           </Typography>
@@ -49,9 +48,11 @@ const Header = ({ user }) => {
               Sign In
             </Link>
           </Button>
+          {user && (
           <Button color="inherit">
             Logout
           </Button>
+          )}
           {user && (<Avatar>{user.name[0].toUpperCase()}</Avatar>)}
         </Toolbar>
       </AppBar>
