@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -8,6 +8,8 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import axios from 'axios';
+import { apiUrl } from '../../config/api';
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -39,12 +41,15 @@ const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 export default function Products() {
   const classes = useStyles();
-
+  useEffect(() => {
+    axios.get(`${apiUrl}/users/getData`)
+      .then((res) => console.log(res))
+      .catch((error) => console.log(error));
+  }, []);
   return (
     <>
       <main>
         <Container className={classes.cardGrid} maxWidth="md">
-          {/* End hero unit */}
           <Grid container spacing={4}>
             {cards.map((card) => (
               <Grid item key={card} xs={12} sm={6} md={4}>

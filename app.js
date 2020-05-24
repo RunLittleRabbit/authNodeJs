@@ -14,20 +14,17 @@ app.use(express.static(path.join(__dirname, 'client/build')));
 // Passport Config
 require('./config/passport')(passport);
 
-// Connect flash
-app.use(flash());
-
 // DB Config
 const db = require('./config/keys').mongoURI;
 
 // Connect to MongoDB
 mongoose
-    .connect(
-        db,
-        { useNewUrlParser: true }
-    )
-    .then(() => console.log('MongoDB Connected'))
-    .catch(err => console.log(err));
+  .connect(
+    db,
+    { useNewUrlParser: true },
+  )
+  .then(() => console.log('MongoDB Connected'))
+  .catch((err) => console.log(err));
 
 // Express body parser
 app.use(bodyParser.json());
@@ -35,23 +32,25 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // Express session
 app.use(
-    session({
-        secret: 'secret',
-        resave: true,
-        saveUninitialized: true
-    })
+  session({
+    secret: 'secret',
+    resave: true,
+    saveUninitialized: true,
+  }),
 );
 
 // Passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Connect flash
+app.use(flash());
 
 // Global variables
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  next();
 });
 
 // Routes

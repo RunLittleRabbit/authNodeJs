@@ -10,6 +10,7 @@ import { ActionTypes } from './actions';
 export function* signIn({ values }) {
   try {
     const user = yield call(axios.post, `${apiUrl}/users/login`, values);
+    console.log(user);
     yield put({ type: ActionTypes.SIGN_IN_SUCCESS, values: user.data });
     yield put(push('/products'));
   } catch (e) {
