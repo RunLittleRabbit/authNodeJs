@@ -17,12 +17,12 @@ const HandleErrors = ({ message }) => {
         },
       });
     }
-  }, [message]);
+  }, [message, enqueueSnackbar]);
 
   return null;
 };
 HandleErrors.propTypes = {
-  message: PropTypes.string.isRequired,
+  message: PropTypes.string,
 };
 
 export default connect(

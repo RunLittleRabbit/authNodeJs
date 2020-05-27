@@ -5,7 +5,6 @@ const bcrypt = require('bcryptjs');
 const passport = require('passport');
 // Load User model
 const User = require('../models/User');
-const { ensureAuthenticated } = require('../config/auth');
 
 // Register
 router.post('/register', (req, res) => {
@@ -77,28 +76,23 @@ router.post('/login', (req, res, next) => {
     req.logIn(user, (err) => {
       if (err) return next(err);
       res.json({ name: user.name, email: user.email });
-      console.log('authenticate is', req.isAuthenticated());
     });
   })(req, res, next);
 });
+
 // Logout
-router.get('/logout', ensureAuthenticated, (req, res) => {
-  console.log('logout', req.isAuthenticated());
+router.get('/logout', (req, res) => {
   req.logout();
   req.flash('success_msg', 'You are logged out');
   res.redirect('/');
 });
 
 // get data
-router.get('/getData', ensureAuthenticated, (req, res) => {
-  console.log('434', req.isAuthenticated());
-  res.send('dashboard', {
-    user: req.user,
+router.get('/getData', (req, res) => {
+  User.find((err, data) => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true, data });
   });
-  // User.find((err, data) => {
-  //   if (err) return res.json({ success: false, error: err });
-  //   return res.json({ success: true, data });
-  // });
 });
 
 module.exports = router;

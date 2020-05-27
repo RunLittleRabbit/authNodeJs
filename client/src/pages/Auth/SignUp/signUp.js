@@ -75,6 +75,8 @@ const SignUp = ({ submit, isLoading }) => {
               errors.password = 'Required';
             } else if (values.password !== values.password2) {
               errors.password = 'passwords not identical';
+            } else if (values.password.length < 6) {
+              errors.password = 'password min length 6';
             }
             return errors;
           }}

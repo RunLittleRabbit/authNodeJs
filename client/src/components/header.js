@@ -8,7 +8,6 @@ import { Link } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { actions as AuthActions } from '../store/auth/actions';
 import * as AuthSelectors from '../store/auth/selectors';
 
 const useStyles = makeStyles((theme) => ({
@@ -53,7 +52,7 @@ const Header = ({ user }) => {
             Logout
           </Button>
           )}
-          {user && (<Avatar>{user.name[0].toUpperCase()}</Avatar>)}
+          {/*{user && (<Avatar>{user.name[0].toUpperCase()}</Avatar>)}*/}
         </Toolbar>
       </AppBar>
     </div>
