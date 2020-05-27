@@ -1,5 +1,9 @@
-/*main {*/
-/*  background: url("./assets/images/forest.jpg") center;*/
-/*  height: 100vh;*/
-/*  background-size: cover;*/
-/*}*/
+body{
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: top;
+    background-image:url(http://bit.ly/2gPLxZ4);
+    width: 100%;
+    height: 100%;
+}

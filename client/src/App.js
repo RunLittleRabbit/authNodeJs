@@ -1,28 +1,18 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './App.css';
-import SignIn from "./pages/signIn/signIn";
-import SignUp from "./pages/signUp/signUp";
-import Header from "./components/Header";
-import {
-    BrowserRouter as Router,
-    Route,
-    Switch
-} from "react-router-dom";
-import Products from "./pages/Products/products";
+import { ConnectedRouter } from 'connected-react-router';
+import routes from './routes';
+import HandleErrors from './components/handleErrors';
 
-const App = () => (
-    <div className="App">
-      <main>
-          <Router>
-              <Header/>
-              <Switch>
-                  <Route exact path="/" component={SignIn} />
-                  <Route path="/signUp" component={SignUp} />
-                  <Route path="/products" component={Products} />
-              </Switch>
-          </Router>
-      </main>
-    </div>
-  );
+const App = ({ history }) => (
+  <ConnectedRouter history={history}>
+    <HandleErrors />
+    {routes}
+  </ConnectedRouter>
+);
+App.propTypes = {
+  history: PropTypes.object.isRequired,
+};
 
 export default App;
