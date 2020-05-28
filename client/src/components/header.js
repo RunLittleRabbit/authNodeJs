@@ -9,6 +9,7 @@ import Avatar from '@material-ui/core/Avatar';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import * as AuthSelectors from '../store/auth/selectors';
+import { actions as AuthActions } from '../store/auth/actions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Header = ({ user }) => {
+const Header = ({ user, logout }) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -48,11 +49,11 @@ const Header = ({ user }) => {
             </Link>
           </Button>
           {user && (
-          <Button color="inherit">
+          <Button color="inherit" onClick={logout}>
             Logout
           </Button>
           )}
-          {/*{user && (<Avatar>{user.name[0].toUpperCase()}</Avatar>)}*/}
+          {user && (<Avatar>{user.name[0].toUpperCase()}</Avatar>)}
         </Toolbar>
       </AppBar>
     </div>
@@ -60,6 +61,7 @@ const Header = ({ user }) => {
 };
 Header.propTypes = {
   user: PropTypes.objectOf(PropTypes.string),
+  logout: PropTypes.func.isRequired,
 };
 Header.defaultProps = {
   user: null,
@@ -69,5 +71,7 @@ export default connect(
   (state) => ({
     user: AuthSelectors.shopItemsSelector(state),
   }),
-  null,
+  (dispatch) => ({
+    logout: () => dispatch(AuthActions.logout()),
+  }),
 )(Header);

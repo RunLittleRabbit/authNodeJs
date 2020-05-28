@@ -5,6 +5,7 @@ const flash = require('connect-flash');
 const session = require('express-session');
 const bodyParser = require('body-parser');
 const path = require('path');
+const cors = require('cors');
 
 const app = express();
 
@@ -35,6 +36,9 @@ app.use(
   session({
     secret: 'secret',
     resave: true,
+    cookie: {
+      secure: false,
+    },
     saveUninitialized: true,
   }),
 );
@@ -46,12 +50,8 @@ app.use(passport.session());
 // Connect flash
 app.use(flash());
 
-// Global variables
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-  next();
-});
+// Cors
+app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
 
 // Routes
 app.use('/', require('./routes/index.js'));

@@ -5,6 +5,8 @@ const bcrypt = require('bcryptjs');
 const passport = require('passport');
 // Load User model
 const User = require('../models/User');
+const { forwardAuthenticated } = require('../config/auth');
+const { ensureAuthenticated } = require('../config/auth');
 
 // Register
 router.post('/register', (req, res) => {
@@ -63,7 +65,7 @@ router.post('/register', (req, res) => {
   });
 });
 
-router.post('/login', (req, res, next) => {
+router.post('/login', forwardAuthenticated, (req, res, next) => {
   passport.authenticate('local', (err, user, info) => {
     if (err) return next(err);
     if (!user) {
@@ -81,14 +83,16 @@ router.post('/login', (req, res, next) => {
 });
 
 // Logout
-router.get('/logout', (req, res) => {
-  req.logout();
-  req.flash('success_msg', 'You are logged out');
-  res.redirect('/');
+router.get('/logout', ensureAuthenticated, (req, res, next) => {
+  req.session.destroy((err) => {
+    if (err) { return next(err); }
+    // The response should indicate that the user is no longer authenticated.
+    return res.send({ authenticated: req.isAuthenticated() });
+  });
 });
 
 // get data
-router.get('/getData', (req, res) => {
+router.get('/getData', ensureAuthenticated, (req, res) => {
   User.find((err, data) => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true, data });

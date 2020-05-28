@@ -41,8 +41,11 @@ const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 export default function Products() {
   const classes = useStyles();
+  const axiosConfig = {
+    withCredentials: true,
+  };
   useEffect(() => {
-    axios.get(`${apiUrl}/users/logout`)
+    axios.get(`${apiUrl}/users/getData`, axiosConfig)
       .then((res) => console.log(res))
       .catch((error) => console.log(error));
   }, []);

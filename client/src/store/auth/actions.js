@@ -7,6 +7,8 @@ export const ActionTypes = {
   SIGN_UP_SUCCESS: 'SIGN_UP_SUCCESS',
   SIGN_UP_FAILED: 'SIGN_UP_FAILED',
   LOGOUT: 'LOGOUT',
+  LOGOUT_SUCCESS: 'LOGOUT_SUCCESS',
+  LOGOUT_FAILED: 'LOGOUT_FAILED',
 };
 export const actions = {
   signIn: (values) => ({
@@ -24,13 +26,19 @@ export const actions = {
     values,
   }),
   signUpSuccess: () => ({
-    type: ActionTypes.SIGN_IN_SUCCESS,
+    type: ActionTypes.SIGN_UP_SUCCESS,
   }),
   signUpFailed: () => ({
-    type: ActionTypes.SIGN_IN_FAILED,
+    type: ActionTypes.SIGN_UP_FAILED,
   }),
   logout: () => ({
-    type: ActionTypes.ADD_TEXT,
+    type: ActionTypes.LOGOUT,
+  }),
+  logoutSuccess: () => ({
+    type: ActionTypes.LOGOUT_SUCCESS,
+  }),
+  logoutFailed: () => ({
+    type: ActionTypes.LOGOUT_FAILED,
   }),
   addTodo: (text) => ({
     type: ActionTypes.ADD_TEXT,
